@@ -1,17 +1,11 @@
 import { useRouter } from 'expo-router';
 import React, { useContext } from 'react';
-import { Image, Linking, Text, View } from 'react-native';
-import Button from '../components/button';
+import { Image, Linking, Text, TouchableOpacity, View } from 'react-native';
 import { ThemeContext } from '../hooks/useTheme';
 
 export default function Acknowledgment() {
   const router = useRouter();
-  const context = useContext(ThemeContext)!; // ✅ Tell TS it will never be undefined
-  const { theme, styles } = context;
-
-  const handleVisitWebsite = () => {
-    Linking.openURL('https://spotwebtech.com.ng/'); // Replace with your actual site
-  };
+  const { theme, styles } = useContext(ThemeContext)!;
 
   return (
     <View style={styles.container}>
@@ -21,23 +15,53 @@ export default function Acknowledgment() {
             ? require('../assets/images/smartsave-light.png')
             : require('../assets/images/smartsave-dark.png')
         }
-        style={{ width: 200, height: 200 }}
+        style={{ width: 180, height: 180, marginBottom: 20 }}
       />
 
-      <Text style={styles.title}>Acknowledgment</Text>
+      <Text style={styles.title}>Welcome to SmartSave</Text>
+
       <Text style={styles.text}>
-        This app is developed and designed by Spotweb Tech.
-        Spotweb Tech specializes in creating smart and intuitive apps for users.
-        Visit our website for more information.
+        SmartSave is designed to help you save smarter, manage your finances,
+        and grow your money effortlessly.
       </Text>
 
-      <Text style={styles.text} onPress={handleVisitWebsite}>
-        https://spotweb.com
+      <Text
+        style={[styles.text, { color: '#FBBF24' }]}
+        onPress={() => Linking.openURL('https://spotwebtech.com.ng')}
+      >
+        Powered by Spotweb Tech
       </Text>
 
-      <Button title='Next' url='/dashboard' theme={theme} />
+      {/* ACTION BUTTONS */}
+      <View style={{ width: '80%', marginTop: 30 }}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push('/auth/login')}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.button,
+            {
+              backgroundColor: 'transparent',
+              borderWidth: 1,
+              borderColor: '#FBBF24',
+            },
+          ]}
+          onPress={() => router.push('/auth/register')}
+        >
+          <Text
+            style={[
+              styles.buttonText,
+              { color:  '#FBBF24' },
+            ]}
+          >
+            Create Account
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
-
-
